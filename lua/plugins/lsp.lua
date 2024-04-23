@@ -1,15 +1,10 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    -- thanks https://github.com/SuduIDE/ideals/issues/59#issuecomment-1348761041
+    -- see also `:h lspconfig-new`, https://www.lazyvim.org/configuration/examples
     ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        ideals = {},
-      },
-    },
-    init = function()
+    opts = function(_, opts)
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local configs = require("lspconfig.configs")
@@ -36,11 +31,14 @@ return {
         },
       }
 
-      lspconfig.ideals.setup({
+      -- lspconfig.ideals.setup({
+      --   capabilities = capabilities,
+      -- })
+      -- table.insert(opts, value)
+      opts.servers.ideals = {
         capabilities = capabilities,
-      })
+      }
     end,
-    -- config = function() end,
   },
   {
     "jmederosalvarado/roslyn.nvim",
