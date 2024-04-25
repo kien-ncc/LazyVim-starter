@@ -1,6 +1,13 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    init = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      -- disable a keymap
+      keys[#keys + 1] = { "gr", false }
+      -- add a keymap
+      keys[#keys + 1] = { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" }
+    end,
     -- thanks https://github.com/SuduIDE/ideals/issues/59#issuecomment-1348761041
     -- see also `:h lspconfig-new`, https://www.lazyvim.org/configuration/examples
     ---@class PluginLspOpts
@@ -21,7 +28,8 @@ return {
 
       configs.ideals = {
         default_config = {
-          cmd = { "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea", "lsp-server" },
+          --cmd = { "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea", "lsp-server" },
+          cmd = { "nc", "localhost", "8989" },
           filetypes = { "kotlin", "gradle", "java" },
           root_dir = function(pattern)
             local cwd = vim.loop.cwd()

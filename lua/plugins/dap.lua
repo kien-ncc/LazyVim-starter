@@ -1,5 +1,19 @@
 return {
   {
+    "mfussenegger/nvim-dap",
+    -- stylua: ignore
+    keys = {
+      { "<F5>", function() require("dap").continue() end, desc = "Continue" },
+      { "<F10>", function() require("dap").step_over() end, desc = "Step Over" },
+      { "<F11>", function() require("dap").step_into() end, desc = "Step Into" },
+      -- swap uppercase mappings since the lowercase version is used more frequently.
+      { "<leader>dC", function() require("dap").continue() end, desc = "Continue" },
+      { "<leader>dc", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
+      { "<leader>dO", function() require("dap").step_out() end, desc = "Step Out" },
+      { "<leader>do", function() require("dap").step_over() end, desc = "Step Over" },
+    },
+  },
+  {
     "mxsdev/nvim-dap-vscode-js",
     config = function()
       require("dap-vscode-js").setup({
@@ -137,11 +151,6 @@ return {
     "rcarriga/nvim-dap-ui",
     -- stylua: ignore
     keys = {
-      -- swap uppercase mappings since the lowercase version is used more frequently.
-      { "<leader>dC", function() require("dap").continue() end, desc = "Continue" },
-      { "<leader>dc", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-      { "<leader>dO", function() require("dap").step_out() end, desc = "Step Out" },
-      { "<leader>do", function() require("dap").step_over() end, desc = "Step Over" },
       { "<leader>de", function() require("dapui").eval(nil, { enter = true }) end, desc = "Eval", mode = {"n", "v"} },
     },
     -- stylua: ignore

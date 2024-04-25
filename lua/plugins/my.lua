@@ -7,17 +7,12 @@ return {
         -- your configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
-        vim.keymap.set("n", "<leader>ex", require("substitute").operator, { noremap = true, desc = "Substitute" }),
+        -- vim.keymap.set("n", "<leader>ex", require("substitute").operator, { noremap = true, desc = "Substitute" }),
+        vim.keymap.set("n", "gr", require("substitute").operator, { noremap = true, desc = "Substitute" }),
         --vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
         --vim.keymap.set("n", "S", require('substitute').eol, { noremap = true })
-        vim.keymap.set("x", "<leader>ex", require("substitute").visual, { noremap = true, desc = "Substitute" }),
+        vim.keymap.set("x", "gr", require("substitute").visual, { noremap = true, desc = "Substitute" }),
       })
-    end,
-  },
-  {
-    "folke/which-key.nvim",
-    opts = function(_, opts)
-      opts.defaults["<leader>e"] = { name = "+editor" }
     end,
   },
   {
