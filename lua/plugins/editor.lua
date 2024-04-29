@@ -3,7 +3,7 @@ return {
     "nvim-telescope/telescope.nvim",
     keys = {
       {
-        "<leader>,",
+        "<C-Tab>",
         "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
         desc = "Switch Buffer",
       },
@@ -11,31 +11,6 @@ return {
   },
   {
     "echasnovski/mini.surround",
-    -- init = function() end,
-    -- keys = function(_, keys)
-    --   -- vim.keymap.del("x", "ys")
-    --   vim.keymap.set("x", "S", [[:<C-u>lua require('mini.surround').add('visual')<CR>]], { silent = true })
-    --   return keys
-    -- end,
-    -- opts = function(_, opts)
-    --   -- vim.list_extend(opts, {
-    --   --   mappings = {
-    --   --     add = "ys",
-    --   --     delete = "ds",
-    --   --     replace = "cs",
-    --   --   },
-    --   -- })
-    --   opts.mappings =
-    --     {
-    --       add = "ys",
-    --       delete = "ds",
-    --       replace = "cs",
-    --     },
-    --     -- Remap adding surrounding to Visual mode selection
-    --     -- vim.keymap.del("o", "S")
-    --     -- vim.keymap.del("x", "ys")
-    --     vim.keymap.set("x", "S", [[:<C-u>lua require('mini.surround').add('visual')<CR>]], { silent = true })
-    -- end,
     opts = {
       mappings = {
         add = "ys",
@@ -48,9 +23,22 @@ return {
     "folke/flash.nvim",
     -- stylua: ignore
     keys = {
+      {
+        "s", mode = { "n", "x", "o" },
+        function()
+          require("flash").jump({
+            search = {
+              mode = function(str)
+                return "\\<" .. str
+              end,
+            },
+          })
+        end, desc = "Flash beginning of words only" },
       { "S", mode = { "x", "o" }, false },
     },
   },
+  -- nvim already has g text object?!
+  -- { "kana/vim-textobj-entire" },
   -- Performance
   {
     "LunarVim/bigfile.nvim",
