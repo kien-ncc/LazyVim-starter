@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     init = function()
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      -- disable a keymap
+      -- disable gr since conflict with substitute
       keys[#keys + 1] = { "gr", false }
       -- add a keymap
       keys[#keys + 1] = { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" }
@@ -30,7 +30,7 @@ return {
         default_config = {
           --cmd = { "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea", "lsp-server" },
           cmd = { "nc", "localhost", "8989" },
-          filetypes = { "kotlin", "gradle", "java" },
+          filetypes = { "kotlin", "gradle", "groovy", "java" },
           root_dir = function(pattern)
             local cwd = vim.loop.cwd()
             local root = util.root_pattern(".idea")(pattern)
@@ -45,6 +45,27 @@ return {
       -- table.insert(opts, value)
       opts.servers.ideals = {
         capabilities = capabilities,
+      }
+      local mason_registry = require("mason-registry")
+      local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+        .. "/node_modules/@vue/language-server"
+      ---@type lspconfig.options.tsserver
+      opts.servers.tsserver = {
+        init_options = {
+          plugins = {
+            {
+              name = "@vue/typescript-plugin",
+              location = vue_language_server_path,
+              languages = { "vue" },
+            },
+          },
+        },
+        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+        settings = {},
+      }
+      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+      opts.setup = {
+        -- tsserver = {},
       }
     end,
   },

@@ -42,6 +42,33 @@ local lastSibling = function(state)
   local siblings = getSiblings(state, node)
   renderer.focus_node(state, siblings[#siblings])
 end
+--thanks: https://github.com/ghostbuster91/dot-files/blob/ce02eedc563d0bf9165ee5312caa968e837aea2c/modules/hm/neovim/lua/local/neotree/init.lua#L18
+--- Recursively open the current folder and all folders it contains.
+local function expand_all_default(state)
+  local node = state.tree:get_node()
+  ---@diagnostic disable-next-line: missing-parameter
+  require("neo-tree.sources.common.commands").expand_all_nodes(state, node)
+end
+
+local function collapse_all_under_cursor(state)
+  local active_node = state.tree:get_node()
+  local stack = { active_node }
+
+  while next(stack) ~= nil do
+    local node = table.remove(stack)
+    local children = state.tree:get_nodes(node:get_id())
+    for _, v in ipairs(children) do
+      table.insert(stack, v)
+    end
+
+    if node.type == "directory" and node:is_expanded() then
+      node:collapse()
+    end
+  end
+
+  renderer.redraw(state)
+  renderer.focus_node(state, active_node:get_id())
+end
 
 return {
   {
@@ -107,6 +134,11 @@ return {
             desc = "in - Navigation with HJKL",
           },
           ["o"] = { "toggle_node", desc = "toggle_node" },
+          -- ["O"] = "expand_all_nodes", Not working: https://github.com/nvim-neo-tree/neo-tree.nvim/discussions/770#discussioncomment-6024344
+          ["Z"] = "noop",
+          ["z"] = "none",
+          ["zO"] = expand_all_default,
+          ["zm"] = collapse_all_under_cursor,
           ["<C-j>"] = { next_sibling, desc = "next_sibling" },
           ["<C-k>"] = { prevSibling, desc = "prev_sibling" },
           ["J"] = { lastSibling, desc = "last_sibling" },
