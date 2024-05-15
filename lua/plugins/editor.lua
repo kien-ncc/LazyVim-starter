@@ -1,18 +1,70 @@
 return {
   {
     "gbprod/substitute.nvim",
-    config = function()
-      require("substitute").setup({
+    keys = {
+      -- { "cx", mode = { "n" }, require("substitute.exchange").operator, desc = "Substitute.exchange" },
+      {
+        "<leader>ex",
+        mode = { "n" },
+        function()
+          require("substitute.exchange").operator()
+        end,
+        desc = "Substitute.Exchange",
+        -- remap = false,
+      },
+      {
+        "<leader>er",
+        mode = { "n" },
+        function()
+          require("substitute").operator()
+        end,
+        desc = "ReplaceWithReg@Substitute",
+      },
+      {
+        "<leader>er",
+        mode = { "x" },
+        function()
+          require("substitute").visual()
+        end,
+        desc = "ReplaceWithReg@Substitute",
+      },
+      {
+        "X",
+        mode = { "x" },
+        function()
+          require("substitute.exchange").visual()
+        end,
+        desc = "Substitute.Exchange",
+      },
+    },
+    opts = function()
+      local substitute = require("substitute")
+      -- vim.keymap.set("n", "<leader>ex", require("substitute").operator, { noremap = true, desc = "Substitute" }),
+      vim.keymap.set("n", "gr", substitute.operator, { noremap = true, desc = "Substitute" })
+      --vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
+      --vim.keymap.set("n", "S", require('substitute').eol, { noremap = true })
+      vim.keymap.set("x", "gr", substitute.visual, { noremap = true, desc = "Substitute" })
+      vim.keymap.set(
+        "n",
+        "cx",
+        require("substitute.exchange").operator,
+        { noremap = true, desc = "Substitute.Exchange" }
+      )
+      -- TODO Use keys ExOR opts only(exclusively).
+      -- TODO Use either keys or opts.
+      return {
         -- your configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
-        -- vim.keymap.set("n", "<leader>ex", require("substitute").operator, { noremap = true, desc = "Substitute" }),
-        vim.keymap.set("n", "gr", require("substitute").operator, { noremap = true, desc = "Substitute" }),
-        --vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
-        --vim.keymap.set("n", "S", require('substitute').eol, { noremap = true })
-        vim.keymap.set("x", "gr", require("substitute").visual, { noremap = true, desc = "Substitute" }),
-      })
+      }
     end,
+    -- config = function()
+    --   require("substitute").setup({
+    --     -- your configuration comes here
+    --     -- or leave it empty to use the default settings
+    --     -- refer to the configuration section below
+    --   })
+    -- end,
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -63,5 +115,23 @@ return {
     config = function()
       require("better_escape").setup()
     end,
+  },
+  {
+    "chrisgrieser/nvim-spider",
+    keys = {
+      {
+        mode = { "n", "o", "x" },
+        -- "<S-Right>",
+        "<M-f>",
+        "<cmd>lua require('spider').motion('w')<CR>",
+        desc = "[Spider]next subword start (w)",
+      },
+      {
+        mode = { "n", "o", "x" },
+        "<M-b>",
+        "<cmd>lua require('spider').motion('b')<CR>",
+        desc = "[Spider]previous subword start (b)",
+      },
+    },
   },
 }

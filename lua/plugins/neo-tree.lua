@@ -287,7 +287,9 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
       { "<leader>e", false },
-      { "<leader>E", false },
+      -- { "<leader>E", false },
+      { "<M-1>", "<cmd>Neotree toggle<CR>", desc = "Toggle Neotree", mode = { "n" }, noremap = true },
+      vim.keymap.set("n", "<M-1>", "<cmd>Neotree<CR>", { noremap = true, desc = "File outline" }),
     },
     -- opts = function(_, opts)
     opts = {
@@ -371,7 +373,8 @@ return {
           ["<C-x>"] = "cut_to_clipboard",
           ["<C-v>"] = "paste_from_clipboard",
           ["<S-CR>"] = "close_after_open",
-          ["<C-o>"] = "close_after_open",
+          ["<cr>"] = "close_after_open",
+          ["<C-o>"] = "open",
         },
       },
       document_symbols = {
