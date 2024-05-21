@@ -1,0 +1,203 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+Plug 'easymotion/vim-easymotion'
+"set sneak
+set NERDTree
+set surround
+set multiple-cursors
+Plug 'tpope/vim-commentary'
+set ReplaceWithRegister
+set argtextobj
+Plugin 'tommcdo/vim-exchange'
+Plug 'machakann/vim-highlightedyank'
+Plug 'dbakker/vim-paragraph-motion'
+packadd matchit
+set quickscope
+Plug 'kana/vim-textobj-entire'
+set which-key
+set multicursor
+"Use :set nokeep-english-in-normal[-and-restore-in-insert] to disable the auto-switch feature.
+set nokeep-english-in-normal
+
+""" Idea specific settings ------------------
+set ideajoin
+"set ideastatusicon=gray
+set idearefactormode=keep
+set ignorecase
+"set notimeout
+set timeoutlen=10000
+"let g:WhichKey_ShowVimActions = "true"
+" close the popup and don't process formerly typed keys
+let g:WhichKey_ProcessUnknownMappings = "false"
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Do incremental searching.
+set incsearch
+
+let mapleader = ' '
+" some LazyVim mimics
+map <leader>, <Action>(RecentFiles)
+
+"map <leader>n <Action>
+"most frequent (Editor)
+let g:WhichKeyDesc_editor = "<leader>e Editor (most frequent)"
+map <leader>ee <Action>(RecentFiles)
+"nmap <leader>f <Action>(Find)
+map <leader>er <Action>(Switcher)<CR>
+map <leader>eo <Action>(HideAllWindows)<CR>
+nmap <leader>el <Action>(RecentLocations)
+nmap <leader>et <Action>(JumpToLastWindow)
+map <leader>eb <Action>(Back)
+map <leader>eN <Action>(NextProjectWindow)
+nmap <BS> <Action>(Back)
+nmap <Tab> <Action>(Forward)
+vmap <Tab> <Action>(Forward)
+" VCS(Git)
+map <leader>ek <Action>(CheckinProject)
+"Sometimes C-q not working --> Use Shift-K
+"map <C-k> <Action>(QuickJavaDoc)
+map <leader>em <Action>(ShowPopupMenu)
+map <leader>ez <Action>(ToggleZenMode)
+map <leader>ep <Action>(TogglePowerSave)
+map <leader>em <Action>(MaximizeToolWindow)
+
+let g:WhichKeyDesc_file = "<leader>f File"
+
+"Assist
+let g:WhichKeyDesc_Assist = "<leader>a Assist"
+nmap <leader>aa <Action>(ShowIntentionActions)
+nmap <leader>ar :registers<CR>
+" Save/Swap " register. (Can't set + register in IdeaVim?)
+nmap <leader>as :let @*=@"<CR>
+nmap <leader>aS :let @"=@*<CR>
+" put register *
+" on Mac using command-v is better.
+"nmap <leader>ap \"*p
+"nmap <leader>ap <Action>($Paste)
+"vmap <leader>ap <Action>($Paste)
+
+"navigate (go)
+let g:WhichKeyDesc_Navigate = "<leader>g Go (navigate)"
+nmap <leader>gf <Action>(GotoFile)
+vmap <leader>gf <Action>(GotoFile)
+nmap <leader>gc <Action>(GotoClass)
+vmap <leader>gc <Action>(GotoClass)
+nmap <leader>gs <Action>(GotoSymbol)
+vmap <leader>gs <Action>(GotoSymbol)
+nmap <leader>gt <Action>(FileStructurePopup)
+nmap <leader>gu <Action>(GotoSuperMethod)
+nmap <leader>gd <Action>(GotoImplementation)
+nmap <leader>gT <Action>(GotoTypeDeclaration)
+"nmap <leader>gn :NERDTree<CR>
+nmap <leader>gn <Action>(SelectInProjectView)
+
+"build
+let g:WhichKeyDesc_Build = "<leader>b Build"
+nmap <leader>bs <Action>(Android.SyncProject)
+
+"debug
+let g:WhichKeyDesc_Debug = "<leader>d Debug"
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dr <Action>(Run)
+nmap <leader>dR <Action>(ChooseRunConfiguration)
+nmap <leader>dd <Action>(Debug)
+nmap <leader>dD <Action>(ChooseDebugConfiguration)
+nmap <leader>da <Action>(android.deploy.ApplyChanges)
+nmap <leader>dA <Action>(android.deploy.CodeSwap)
+
+"Convert/Change
+let g:WhichKeyDesc_Convert = "<leader>c Convert/Change"
+nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
+nmap <leader>cc <Action>(VcsShowCurrentChangeMarker)
+nmap <leader>cr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>cd <Action>(EditorDuplicateLines)
+nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
+
+"search
+let g:WhichKeyDesc_Search = "<leader>s Search"
+nmap <leader>sr <Action>(ShowUsages)
+nmap <leader>sc <Action>(CallHierarchy)
+nmap <leader>sh <Action>(TypeHierarchy)
+nmap <leader>st <Action>(KJumpAction.Word1GotoDeclaration)
+
+"refactorings
+let g:WhichKeyDesc_Refactorings = "<leader>r Refactorings"
+nmap <leader>rr <Action>(RenameElement)
+nmap <leader>rs <Action>(ChangeSignature)
+nmap <leader>ru <Action>(MembersPullUp)
+vmap <leader>rt <Action>(Refactorings.QuickListPopupAction)
+
+"add New/Code generation
+let g:WhichKeyDesc_New = "<leader>n New/Code generation"
+nmap <leader>nn <Action>(Generate)
+nmap <leader>no <Action>(OverrideMethods)
+
+"tools"
+
+"vim-style mappings
+"imap <C-F> <Action>(Find)
+"map gt <Action>(Switcher)<CR>
+map [d <Action>(GotoPreviousError)
+map ]d <Action>(GotoNextError)
+map [c <Action>(VcsShowPrevChangeMarker)
+map ]c <Action>(VcsShowNextChangeMarker)
+nmap [m <Action>(MethodUp)
+nmap ]m <Action>(MethodDown)
+nmap ]f <Action>(GotoChangedFile)
+vmap = <Action>(ReformatCode)
+vmap v <Action>(EditorSelectWord)
+vmap <C-S-V> <Action>(EditorUnSelectWord)
+" Use ctrl-c as an ide shortcut in normal and visual modes
+"sethandler <C-C> n-v:ide i:vim
+" Allow pasting while editing (insert mode)
+"sethandler <C-V> n-v:vim i:ide
+sethandler <C-W> v:ide n-i:vim
+sethandler <C-S-V> v:vim n-i:ide
+sethandler <C-P> n-v-i:ide
+sethandler <C-F> n-v-i:ide
+sethandler <C-F8> n-v-i:ide
+"sethandler <Delete> n-v-i:ide
+nmap Y y$
+vmap Y <Action>($Copy)
+"Disable sneak before enable this
+nmap S <Action>(KJumpAction.Word0)
+nmap s <Action>(KJumpAction.Word1)
+nmap <C-W>L <Action>(MoveTabRight)
+nmap <C-W><C-S-W> <Action>(MoveEditorToOppositeTabGroup)
+nmap <C-W><C-L> <Action>(OpenEditorInOppositeTabGroup)
+nmap <C-W>> <Action>(StretchSplitToRight)
+nmap <C-W>< <Action>(StretchSplitToLeft)
+nmap <S-Left> <Action>(EditorPreviousWordInDifferentHumpsMode)
+imap <S-Left> <Action>(EditorPreviousWordInDifferentHumpsMode)
+nmap <S-Right> <Action>(EditorNextWordInDifferentHumpsMode)
+imap <S-Right> <Action>(EditorNextWordInDifferentHumpsMode)
+vmap <S-Left> <Action>(EditorPreviousWordInDifferentHumpsModeWithSelection)
+vmap <S-Right> <Action>(EditorNextWordInDifferentHumpsModeWithSelection)
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=2
+
+let g:sneak#label = 1
+
+" Do incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+
+
+" Find more examples here: https://jb.gg/share-ideavimrc

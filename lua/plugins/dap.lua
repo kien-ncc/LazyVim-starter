@@ -32,7 +32,7 @@ return {
           {
             -- use nvim-dap-vscode-js's pwa-node debug adapter
             type = "pwa-chrome",
-            name = "Launch Chrome to debug client",
+            name = "Launch Chrome 9222 to debug client 9000",
             request = "launch",
             url = "http://localhost:9000",
             sourceMaps = true,
@@ -44,7 +44,7 @@ return {
           },
           {
             type = "pwa-chrome",
-            name = "Launch Chrome to debug client 8080",
+            name = "Launch Chrome 9222 to debug client 8080",
             request = "launch",
             url = "http://localhost:8080",
             sourceMaps = true,

@@ -1,3 +1,5 @@
+local actions = require("telescope.actions")
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -22,6 +24,12 @@ return {
           end
           return file_sorter
         end,
+        mappings = {
+          i = {
+            ["<M-Up>"] = actions.cycle_history_prev,
+            ["<M-Down>"] = actions.cycle_history_next,
+          },
+        },
       },
     },
   },
