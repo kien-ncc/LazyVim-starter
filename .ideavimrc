@@ -36,34 +36,15 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 set incsearch
 
 let mapleader = ' '
+
+" General
+nmap <BS> <Action>(Back)
+nmap <Tab> <Action>(Forward)
+vmap <Tab> <Action>(Forward)
 " some LazyVim mimics
 map <leader>, <Action>(RecentFiles)
 
 "map <leader>n <Action>
-"most frequent (Editor)
-let g:WhichKeyDesc_editor = "<leader>e Editor (most frequent)"
-map <leader>ee <Action>(RecentFiles)
-"nmap <leader>f <Action>(Find)
-map <leader>er <Action>(Switcher)<CR>
-map <leader>eo <Action>(HideAllWindows)<CR>
-nmap <leader>el <Action>(RecentLocations)
-nmap <leader>et <Action>(JumpToLastWindow)
-map <leader>eb <Action>(Back)
-map <leader>eN <Action>(NextProjectWindow)
-nmap <BS> <Action>(Back)
-nmap <Tab> <Action>(Forward)
-vmap <Tab> <Action>(Forward)
-" VCS(Git)
-map <leader>ek <Action>(CheckinProject)
-"Sometimes C-q not working --> Use Shift-K
-"map <C-k> <Action>(QuickJavaDoc)
-map <leader>em <Action>(ShowPopupMenu)
-map <leader>ez <Action>(ToggleZenMode)
-map <leader>ep <Action>(TogglePowerSave)
-map <leader>em <Action>(MaximizeToolWindow)
-
-let g:WhichKeyDesc_file = "<leader>f File"
-
 "Assist
 let g:WhichKeyDesc_Assist = "<leader>a Assist"
 nmap <leader>aa <Action>(ShowIntentionActions)
@@ -77,24 +58,17 @@ nmap <leader>aS :let @"=@*<CR>
 "nmap <leader>ap <Action>($Paste)
 "vmap <leader>ap <Action>($Paste)
 
-"navigate (go)
-let g:WhichKeyDesc_Navigate = "<leader>g Go (navigate)"
-nmap <leader>gf <Action>(GotoFile)
-vmap <leader>gf <Action>(GotoFile)
-nmap <leader>gc <Action>(GotoClass)
-vmap <leader>gc <Action>(GotoClass)
-nmap <leader>gs <Action>(GotoSymbol)
-vmap <leader>gs <Action>(GotoSymbol)
-nmap <leader>gt <Action>(FileStructurePopup)
-nmap <leader>gu <Action>(GotoSuperMethod)
-nmap <leader>gd <Action>(GotoImplementation)
-nmap <leader>gT <Action>(GotoTypeDeclaration)
-"nmap <leader>gn :NERDTree<CR>
-nmap <leader>gn <Action>(SelectInProjectView)
-
 "build
 let g:WhichKeyDesc_Build = "<leader>b Build"
 nmap <leader>bs <Action>(Android.SyncProject)
+
+"Code/Convert/Change
+let g:WhichKeyDesc_Convert = "<leader>c Code/Convert/Change"
+nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
+nmap <leader>cc <Action>(VcsShowCurrentChangeMarker)
+nmap <leader>cr <Action>(RenameElement)
+nmap <leader>cd <Action>(EditorDuplicateLines)
+nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
 
 "debug
 let g:WhichKeyDesc_Debug = "<leader>d Debug"
@@ -106,13 +80,48 @@ nmap <leader>dD <Action>(ChooseDebugConfiguration)
 nmap <leader>da <Action>(android.deploy.ApplyChanges)
 nmap <leader>dA <Action>(android.deploy.CodeSwap)
 
-"Convert/Change
-let g:WhichKeyDesc_Convert = "<leader>c Convert/Change"
-nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
-nmap <leader>cc <Action>(VcsShowCurrentChangeMarker)
-nmap <leader>cr <Action>(Vcs.RollbackChangedLines)
-nmap <leader>cd <Action>(EditorDuplicateLines)
-nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
+"most frequent (Editor)
+let g:WhichKeyDesc_editor = "<leader>e Editor (most frequent)"
+map <leader>ee <Action>(RecentFiles)
+"nmap <leader>f <Action>(Find)
+map <leader>er <Action>(Switcher)<CR>
+map <leader>eo <Action>(HideAllWindows)<CR>
+nmap <leader>el <Action>(RecentLocations)
+nmap <leader>et <Action>(JumpToLastWindow)
+map <leader>eb <Action>(Back)
+map <leader>eN <Action>(NextProjectWindow)
+map <leader>ei <Action>(IdeaVim.ReloadVimRc.reload)
+" VCS(Git)
+map <leader>ek <Action>(CheckinProject)
+"Sometimes C-q not working --> Use Shift-K
+"map <C-k> <Action>(QuickJavaDoc)
+map <leader>em <Action>(ShowPopupMenu)
+map <leader>ez <Action>(ToggleZenMode)
+map <leader>ep <Action>(TogglePowerSave)
+map <leader>em <Action>(MaximizeToolWindow)
+
+"File
+let g:WhichKeyDesc_file = "<leader>f File"
+map <leader><space> <Action>(GotoFile)
+map <leader>ff <Action>(GotoFile)
+nmap <leader>fe <Action>(SelectInProjectView)
+
+"Git/navigate (go)
+let g:WhichKeyDesc_Navigate = "<leader>g Git/Go (navigate)"
+nmap <leader>gf <Action>(GotoFile)
+vmap <leader>gf <Action>(GotoFile)
+nmap <leader>gc <Action>(GotoClass)
+vmap <leader>gc <Action>(GotoClass)
+nmap <leader>gs <Action>(GotoSymbol)
+vmap <leader>gs <Action>(GotoSymbol)
+nmap <leader>gt <Action>(FileStructurePopup)
+nmap <leader>gu <Action>(GotoSuperMethod)
+nmap <leader>gd <Action>(GotoImplementation)
+nmap <leader>gT <Action>(GotoTypeDeclaration)
+"nmap <leader>gn :NERDTree<CR>
+" nmap <leader>gn <Action>(SelectInProjectView)
+let g:WhichKeyDesc_Search = "<leader>gh Git hunk"
+nmap <leader>ghr <Action>(Vcs.RollbackChangedLines) "Git hunk reset
 
 "search
 let g:WhichKeyDesc_Search = "<leader>s Search"
@@ -145,6 +154,10 @@ map ]c <Action>(VcsShowNextChangeMarker)
 nmap [m <Action>(MethodUp)
 nmap ]m <Action>(MethodDown)
 nmap ]f <Action>(GotoChangedFile)
+nmap [f <Action>(MethodUp) "function
+nmap ]f <Action>(MethodDown)
+map [[ <Action>(GotoPrevElementUnderCaretUsage)
+map ]] <Action>(GotoNextElementUnderCaretUsage)
 vmap = <Action>(ReformatCode)
 vmap v <Action>(EditorSelectWord)
 vmap <C-S-V> <Action>(EditorUnSelectWord)

@@ -6,28 +6,12 @@ return {
     opts = {
       defaults = {
         path_display = { "truncate" }, -- "shorten"
-        __generic_sorter = function(opts, list)
-          local conf = require("telescope.config").values
-          local indices = {}
-          for i, line in ipairs(list) do
-            indices[line] = i
-          end
-          local file_sorter = conf.file_sorter(opts)
-          local base_scorer = file_sorter.scoring_function
-          file_sorter.scoring_function = function(self, prompt, line)
-            local score = base_scorer(self, prompt, line)
-            if score <= 0 then
-              return -1
-            else
-              return indices[line]
-            end
-          end
-          return file_sorter
-        end,
         mappings = {
           i = {
             ["<M-Up>"] = actions.cycle_history_prev,
             ["<M-Down>"] = actions.cycle_history_next,
+            ["<M-p>"] = actions.cycle_history_prev,
+            ["<M-n>"] = actions.cycle_history_next,
           },
         },
       },
