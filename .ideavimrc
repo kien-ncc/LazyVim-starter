@@ -37,17 +37,37 @@ set incsearch
 
 let mapleader = ' '
 
-" General
+" General/vim-style mappings
 nmap <BS> <Action>(Back)
 nmap <Tab> <Action>(Forward)
 vmap <Tab> <Action>(Forward)
+"imap <C-F> <Action>(Find)
+"map gt <Action>(Switcher)<CR>
+map [d <Action>(GotoPreviousError)
+map ]d <Action>(GotoNextError)
+nmap [m <Action>(MethodUp)
+nmap ]m <Action>(MethodDown)
+"nmap ]f <Action>(GotoChangedFile)
+vmap = <Action>(ReformatCode)
+vmap v <Action>(EditorSelectWord)
+
 " some LazyVim mimics
 map <leader>, <Action>(RecentFiles)
+nmap gI <Action>(GotoImplementation)
+"hunk
+map [h <Action>(VcsShowPrevChangeMarker)
+map ]h <Action>(VcsShowNextChangeMarker)
+"function
+nmap [f <Action>(MethodUp)
+nmap ]f <Action>(MethodDown)
+map [[ <Action>(GotoPrevElementUnderCaretUsage)
+map ]] <Action>(GotoNextElementUnderCaretUsage)
+nmap <M-b> <Action>(EditorPrevWordInDifferentHumpsMode)
+nmap <M-f> <Action>(EditorNextWordInDifferentHumpsMode)
 
 "map <leader>n <Action>
 "Assist
 let g:WhichKeyDesc_Assist = "<leader>a Assist"
-nmap <leader>aa <Action>(ShowIntentionActions)
 nmap <leader>ar :registers<CR>
 " Save/Swap " register. (Can't set + register in IdeaVim?)
 nmap <leader>as :let @*=@"<CR>
@@ -64,11 +84,13 @@ nmap <leader>bs <Action>(Android.SyncProject)
 
 "Code/Convert/Change
 let g:WhichKeyDesc_Convert = "<leader>c Code/Convert/Change"
+nmap <leader>ca <Action>(ShowIntentionActions)
 nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
 nmap <leader>cc <Action>(VcsShowCurrentChangeMarker)
 nmap <leader>cr <Action>(RenameElement)
 nmap <leader>cd <Action>(EditorDuplicateLines)
 nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
+nmap <leader>cd <Action>(ShowErrorDescription)
 
 "debug
 let g:WhichKeyDesc_Debug = "<leader>d Debug"
@@ -114,9 +136,7 @@ nmap <leader>gc <Action>(GotoClass)
 vmap <leader>gc <Action>(GotoClass)
 nmap <leader>gs <Action>(GotoSymbol)
 vmap <leader>gs <Action>(GotoSymbol)
-nmap <leader>gt <Action>(FileStructurePopup)
 nmap <leader>gu <Action>(GotoSuperMethod)
-nmap <leader>gd <Action>(GotoImplementation)
 nmap <leader>gT <Action>(GotoTypeDeclaration)
 "nmap <leader>gn :NERDTree<CR>
 " nmap <leader>gn <Action>(SelectInProjectView)
@@ -125,6 +145,7 @@ nmap <leader>ghr <Action>(Vcs.RollbackChangedLines) "Git hunk reset
 
 "search
 let g:WhichKeyDesc_Search = "<leader>s Search"
+nmap <leader>ss <Action>(FileStructurePopup)
 nmap <leader>sr <Action>(ShowUsages)
 nmap <leader>sc <Action>(CallHierarchy)
 nmap <leader>sh <Action>(TypeHierarchy)
@@ -144,22 +165,6 @@ nmap <leader>no <Action>(OverrideMethods)
 
 "tools"
 
-"vim-style mappings
-"imap <C-F> <Action>(Find)
-"map gt <Action>(Switcher)<CR>
-map [d <Action>(GotoPreviousError)
-map ]d <Action>(GotoNextError)
-map [c <Action>(VcsShowPrevChangeMarker)
-map ]c <Action>(VcsShowNextChangeMarker)
-nmap [m <Action>(MethodUp)
-nmap ]m <Action>(MethodDown)
-nmap ]f <Action>(GotoChangedFile)
-nmap [f <Action>(MethodUp) "function
-nmap ]f <Action>(MethodDown)
-map [[ <Action>(GotoPrevElementUnderCaretUsage)
-map ]] <Action>(GotoNextElementUnderCaretUsage)
-vmap = <Action>(ReformatCode)
-vmap v <Action>(EditorSelectWord)
 vmap <C-S-V> <Action>(EditorUnSelectWord)
 " Use ctrl-c as an ide shortcut in normal and visual modes
 "sethandler <C-C> n-v:ide i:vim

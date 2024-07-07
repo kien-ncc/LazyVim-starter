@@ -1,17 +1,20 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    init = function()
-      local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      -- disable gr since conflict with substitute
-      keys[#keys + 1] = { "gr", false }
-      -- add a keymap
-      keys[#keys + 1] = { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" }
-    end,
-    -- thanks https://github.com/SuduIDE/ideals/issues/59#issuecomment-1348761041
+    -- init = function() end,
     -- see also `:h lspconfig-new`, https://www.lazyvim.org/configuration/examples
     ---@class PluginLspOpts
     opts = function(_, opts)
+      local Keys = require("lazyvim.plugins.lsp.keymaps").get()
+      -- stylua: ignore
+      vim.list_extend(Keys, {
+        -- disable gr since conflict with substitute
+        { "gr", false },
+        -- add a keymap
+        { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" }
+      })
+
+      -- thanks https://github.com/SuduIDE/ideals/issues/59#issuecomment-1348761041
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local configs = require("lspconfig.configs")

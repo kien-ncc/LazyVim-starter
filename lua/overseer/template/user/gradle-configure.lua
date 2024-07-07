@@ -1,14 +1,13 @@
--- /home/stevearc/.config/nvim/lua/overseer/template/user/cpp_build.lua
 local problem_matcher_gradle = require("overseer.problem_matcher_gradle")
 return {
-  name = "gradle :app-android:assembleDebug",
+  name = "gradle configure",
   builder = function()
     -- Full path to current file (see :help expand())
     -- local file = vim.fn.expand("%:p")
     return {
       cmd = { "./gradlew" },
       args = { --"--console=plain",
-        ":app-android:assembleDebug",
+        ":prepareKotlinBuildScriptModel",
       },
       components = {
         -- { "on_output_quickfix", open = true },

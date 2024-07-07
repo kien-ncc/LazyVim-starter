@@ -3,7 +3,7 @@ return {
   {
     "stevearc/overseer.nvim",
     opts = {
-      templates = { "builtin", "user.gradle" },
+      templates = { "builtin", "user.gradle", "user.gradle-configure" },
     },
   },
 }
