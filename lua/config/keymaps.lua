@@ -3,6 +3,7 @@
 -- Add any additional keymaps here
 vim.keymap.set("n", "<BS>", "<C-o>")
 vim.keymap.set("n", "<F5>", "<cmd>checktime<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>br", [[<cmd>checktime<CR>]], { noremap = true, desc = "Refresh/checktime" })
 -- vim.keymap.set("n", "<C-Tab>", "<leader>fb", { noremap = true })
 vim.keymap.set("n", "<C-Tab>", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>.", "<cmd>Telescope resume<cr>", { noremap = true })

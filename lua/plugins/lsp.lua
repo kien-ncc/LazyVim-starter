@@ -9,9 +9,10 @@ return {
       -- stylua: ignore
       vim.list_extend(Keys, {
         -- disable gr since conflict with substitute
-        { "gr", false },
+        -- substitute mappings changed to "<leader>S"
+        { "gr", false },--giving up gr to default nvim lsp.
         -- add a keymap
-        { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" }
+        { "<leader>sr", "<Cmd>Telescope lsp_references<CR>", desc = "Telescope lsp_references" } --"grr"
       })
 
       -- thanks https://github.com/SuduIDE/ideals/issues/59#issuecomment-1348761041
@@ -40,6 +41,18 @@ return {
             return util.path.is_descendant(cwd, root) and cwd or root
           end,
         },
+        on_attach = function(client, bufnr)
+          local wk = require("which-key")
+          wk.register({
+            ["<leader>i"] = { name = "+ideals" },
+          })
+          vim.keymap.set(
+            "n",
+            "<leader>ii",
+            [[<cmd>exec "!'/Applications/Android Studio.app/Contents/MacOS/studio' --line ".line('.')." --column ".col('.')." %:p"<CR>]],
+            { noremap = true, desc = "Open in A.Studio" }
+          )
+        end,
       }
 
       -- lspconfig.ideals.setup({
@@ -49,10 +62,13 @@ return {
       opts.servers.ideals = {
         capabilities = capabilities,
       }
+      --opts.setup.ideals = function(server, opts)
+      --  -- return true if you don't want this server to be setup with lspconfig
+      --  return false
+      --end
       local mason_registry = require("mason-registry")
       local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
         .. "/node_modules/@vue/language-server"
-      ---@type lspconfig.options.tsserver
       opts.servers.tsserver = {
         init_options = {
           plugins = {
@@ -66,10 +82,7 @@ return {
         filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
         settings = {},
       }
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      opts.setup = {
-        -- tsserver = {},
-      }
+      --opts.setup.tsserver = { }
     end,
   },
   {

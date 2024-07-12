@@ -55,6 +55,12 @@ return {
           use_cwd = false,
           sorting = "frecency",
         },
+        git_files = {
+          disable = false,
+          use_cwd = true,
+          sorting = "frecency",
+        },
+        --buffers = { },
 
         -- change settings for a telescope extension.
         -- To find out about extensions, you can use `print(vim.inspect(require'telescope'.extensions))`

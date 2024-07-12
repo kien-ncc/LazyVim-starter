@@ -1,13 +1,28 @@
 return {
+  {
+    "folke/which-key.nvim",
+    opts = function(_, opts)
+      -- opts.defaults["<leader>e"] = { name = "+editor" }
+      -- opts.defaults["<leader>i"] = { name = "+ideals" }
+    end,
+  },
   { "wakatime/vim-wakatime" },
   {
     "gbprod/substitute.nvim",
     opts = function()
+      --LazyVim.lsp.on_attach(function(client, buffer)
+      --  vim.keymap.del("n", "gra")
+      --  vim.keymap.del("n", "grn")
+      --end)
+      vim.keymap.del("x", "gra")
       local substitute = require("substitute")
       local exchange = require("substitute.exchange")
       -- vim.keymap.set("n", "<leader>ex", require("substitute").operator, { noremap = true, desc = "Substitute" }),
       vim.keymap.set("n", "gr", substitute.operator, { noremap = true, desc = "ReplaceWithReg@Substitute" })
+      -- vim.keymap.set("n", "<leader>S", substitute.operator, { noremap = true, desc = "ReplaceWithReg@Substitute" })
       vim.keymap.set("x", "gr", substitute.visual, { noremap = true, desc = "ReplaceWithReg@Substitute" })
+      vim.keymap.set("n", "grr", substitute.line, { noremap = true, desc = "ReplaceWithReg@Substitute Line" })
+      -- vim.keymap.set("x", "<leader>S", substitute.visual, { noremap = true, desc = "ReplaceWithReg@Substitute" })
       vim.keymap.set("n", "cx", exchange.operator, { noremap = true, desc = "Substitute.Exchange" })
       vim.keymap.set("n", "cxx", exchange.line, { noremap = true, desc = "Substitute.Exchange line" })
       vim.keymap.set("x", "X", exchange.operator, { noremap = true, desc = "Substitute.Exchange" })
@@ -64,6 +79,7 @@ return {
   },
   {
     "max397574/better-escape.nvim",
+    enabled = false,
     config = function()
       require("better_escape").setup()
     end,

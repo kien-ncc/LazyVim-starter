@@ -37,7 +37,7 @@ set incsearch
 
 let mapleader = ' '
 
-" General/vim-style mappings
+" General/(neo)vim-style mappings
 nmap <BS> <Action>(Back)
 nmap <Tab> <Action>(Forward)
 vmap <Tab> <Action>(Forward)
@@ -50,10 +50,15 @@ nmap ]m <Action>(MethodDown)
 "nmap ]f <Action>(GotoChangedFile)
 vmap = <Action>(ReformatCode)
 vmap v <Action>(EditorSelectWord)
+imap <C-Return> <Action>(CodeCompletion)
 
 " some LazyVim mimics
 map <leader>, <Action>(RecentFiles)
 nmap gI <Action>(GotoImplementation)
+nmap gK <Action>(ParameterInfo)
+nmap gy <Action>(GotoTypeDeclaration)
+nmap <C-S> <Action>(SaveAll)
+"nmap grr <Action>(ShowUsages)
 "hunk
 map [h <Action>(VcsShowPrevChangeMarker)
 map ]h <Action>(VcsShowNextChangeMarker)
@@ -64,6 +69,9 @@ map [[ <Action>(GotoPrevElementUnderCaretUsage)
 map ]] <Action>(GotoNextElementUnderCaretUsage)
 nmap <M-b> <Action>(EditorPrevWordInDifferentHumpsMode)
 nmap <M-f> <Action>(EditorNextWordInDifferentHumpsMode)
+"Some interesting actions:
+"HippieCompletion
+"ConvertJavaToKotlin
 
 "map <leader>n <Action>
 "Assist
@@ -130,6 +138,7 @@ nmap <leader>fe <Action>(SelectInProjectView)
 
 "Git/navigate (go)
 let g:WhichKeyDesc_Navigate = "<leader>g Git/Go (navigate)"
+nmap <leader>ga <Action>(ChangesView.AddUnversioned)
 nmap <leader>gf <Action>(GotoFile)
 vmap <leader>gf <Action>(GotoFile)
 nmap <leader>gc <Action>(GotoClass)
@@ -137,11 +146,15 @@ vmap <leader>gc <Action>(GotoClass)
 nmap <leader>gs <Action>(GotoSymbol)
 vmap <leader>gs <Action>(GotoSymbol)
 nmap <leader>gu <Action>(GotoSuperMethod)
-nmap <leader>gT <Action>(GotoTypeDeclaration)
 "nmap <leader>gn :NERDTree<CR>
 " nmap <leader>gn <Action>(SelectInProjectView)
 let g:WhichKeyDesc_Search = "<leader>gh Git hunk"
 nmap <leader>ghr <Action>(Vcs.RollbackChangedLines) "Git hunk reset
+
+":
+"vmap <leader>S <Plug>ReplaceWithRegisterVisual
+"nmap <leader>S <Plug>ReplaceWithRegisterOperator
+vmap <leader>S <Action>(SurroundWith)
 
 "search
 let g:WhichKeyDesc_Search = "<leader>s Search"
@@ -150,13 +163,14 @@ nmap <leader>sr <Action>(ShowUsages)
 nmap <leader>sc <Action>(CallHierarchy)
 nmap <leader>sh <Action>(TypeHierarchy)
 nmap <leader>st <Action>(KJumpAction.Word1GotoDeclaration)
+nmap <leader>sS <Action>(GotoSymbol)
+vmap <leader>sS <Action>(GotoSymbol)
 
 "refactorings
 let g:WhichKeyDesc_Refactorings = "<leader>r Refactorings"
-nmap <leader>rr <Action>(RenameElement)
+vmap <leader>rr <Action>(Refactorings.QuickListPopupAction)
 nmap <leader>rs <Action>(ChangeSignature)
 nmap <leader>ru <Action>(MembersPullUp)
-vmap <leader>rt <Action>(Refactorings.QuickListPopupAction)
 
 "add New/Code generation
 let g:WhichKeyDesc_New = "<leader>n New/Code generation"
@@ -175,6 +189,7 @@ sethandler <C-S-V> v:vim n-i:ide
 sethandler <C-P> n-v-i:ide
 sethandler <C-F> n-v-i:ide
 sethandler <C-F8> n-v-i:ide
+sethandler <C-T> n-v-i:ide
 "sethandler <Delete> n-v-i:ide
 nmap Y y$
 vmap Y <Action>($Copy)

@@ -1,5 +1,4 @@
 local renderer = require("neo-tree.ui.renderer")
-local renderer = require("neo-tree.ui.renderer")
 -- The nodes inside the root folder are depth 2.
 local MIN_DEPTH = 2
 local indexOf = function(array, value)
@@ -295,14 +294,22 @@ return {
     opts = {
       commands = {
         close_after_open = function(state)
-          state.commands["open"](state)
-          require("neo-tree.command").execute({ action = "close" })
+          local node = state.tree:get_node()
+          if require("neo-tree.utils").is_expandable(node) then
+            state.commands["toggle_node"](state)
+          else
+            state.commands["open"](state)
+            require("neo-tree.command").execute({ action = "close" })
+          end
         end,
       },
       window = {
         -- https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Tips#open-file-without-losing-sidebar-focus
         -- local nerdmappings =
         mappings = {
+          ["<Esc>"] = function(state)
+            vim.cmd("wincmd l")
+          end,
           ["<tab>"] = {
             function(state)
               local node = state.tree:get_node()
