@@ -49,7 +49,11 @@ return {
       mappings = {
         add = "ys",
         delete = "ds",
+        find = "gsf", --'sf' Find surrounding (to the right)
+        find_left = "gsF", -- Find surrounding (to the left)
+        highlight = "gsh", --'sh' Highlight surrounding
         replace = "cs",
+        update_n_lines = "gsn", --'sn' Update `n_lines`
       },
     },
   },
@@ -63,7 +67,10 @@ return {
           require("flash").jump({
             search = {
               mode = function(str)
-                return "\\<" .. str
+                local upper = str:sub(1,1):upper()
+                local rem=""
+                if str:len() > 1 then rem=str:sub(2,-1) end
+                return "\\<" .. str.."\\|"..upper..rem--..[[\ze\(\w\|\W\)]]--\\C
               end,
             },
           })
@@ -79,7 +86,7 @@ return {
   },
   {
     "max397574/better-escape.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("better_escape").setup()
     end,
@@ -90,7 +97,7 @@ return {
       {
         mode = { "i", "n", "o", "x" },
         -- "<S-Right>",
-        "<M-f>",
+        "<M-w>",
         "<cmd>lua require('spider').motion('w')<CR>",
         desc = "[Spider]next subword start (w)",
       },
@@ -99,6 +106,12 @@ return {
         "<M-b>",
         "<cmd>lua require('spider').motion('b')<CR>",
         desc = "[Spider]previous subword start (b)",
+      },
+      {
+        mode = { "i", "n", "o", "x" },
+        "<M-e>",
+        "<cmd>lua require('spider').motion('e')<CR>",
+        desc = "[Spider]previous subword end (e)",
       },
     },
   },

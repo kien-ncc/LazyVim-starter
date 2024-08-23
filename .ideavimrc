@@ -16,7 +16,8 @@ packadd matchit
 set quickscope
 Plug 'kana/vim-textobj-entire'
 set which-key
-set multicursor
+"set multicursor
+Plug 'terryma/vim-multiple-cursors'
 "Use :set nokeep-english-in-normal[-and-restore-in-insert] to disable the auto-switch feature.
 set nokeep-english-in-normal
 
@@ -26,7 +27,7 @@ set ideajoin
 set idearefactormode=keep
 set ignorecase
 "set notimeout
-set timeoutlen=10000
+set timeoutlen=20000
 "let g:WhichKey_ShowVimActions = "true"
 " close the popup and don't process formerly typed keys
 let g:WhichKey_ProcessUnknownMappings = "false"
@@ -43,6 +44,10 @@ nmap <Tab> <Action>(Forward)
 vmap <Tab> <Action>(Forward)
 "imap <C-F> <Action>(Find)
 "map gt <Action>(Switcher)<CR>
+map <M-k> <Action>(MoveStatementUp)
+map <M-j> <Action>(MoveStatementDown)
+nmap [e <Action>(GotoPreviousError)
+nmap ]e <Action>(GotoNextError)
 map [d <Action>(GotoPreviousError)
 map ]d <Action>(GotoNextError)
 nmap [m <Action>(MethodUp)
@@ -67,15 +72,36 @@ nmap [f <Action>(MethodUp)
 nmap ]f <Action>(MethodDown)
 map [[ <Action>(GotoPrevElementUnderCaretUsage)
 map ]] <Action>(GotoNextElementUnderCaretUsage)
-nmap <M-b> <Action>(EditorPrevWordInDifferentHumpsMode)
+nmap <M-w> <Action>(EditorPrevWordInDifferentHumpsMode)
 nmap <M-f> <Action>(EditorNextWordInDifferentHumpsMode)
+"vim-multiple-cursors https://youtrack.jetbrains.com/issue/VIM-2178
+nmap <C-n> <Plug>NextWholeOccurrence
+"xmap <C-n> <Plug>NextWholeOccurrence
+omap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+omap g<C-n> <Plug>NextOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+" Note that the default <A-n> and g<A-n> shortcuts don't work on Mac due to dead keys.
+" <A-n> is used to enter accented text, e.g., ñ
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+omap <S-C-n> <Plug>AllWholeOccurrences
+nmap g<S-C-n> <Plug>AllOccurrences
+xmap g<S-C-n> <Plug>AllOccurrences
+omap g<S-C-n> <Plug>AllOccurrences
 "Some interesting actions:
 "HippieCompletion
 "ConvertJavaToKotlin
 
 "map <leader>n <Action>
 "Assist
-let g:WhichKeyDesc_Assist = "<leader>a Assist"
+let g:WhichKeyDesc_Assist = "<leader>a Assist/Analyze"
+nmap <leader>aa <Action>(GotoAction)
+"Analyze Data Flow from here
+nmap <leader>adf <Action>(SliceForward)
+nmap <leader>adb <Action>(SliceBackward)
 nmap <leader>ar :registers<CR>
 " Save/Swap " register. (Can't set + register in IdeaVim?)
 nmap <leader>as :let @*=@"<CR>
@@ -93,12 +119,20 @@ nmap <leader>bs <Action>(Android.SyncProject)
 "Code/Convert/Change
 let g:WhichKeyDesc_Convert = "<leader>c Code/Convert/Change"
 nmap <leader>ca <Action>(ShowIntentionActions)
-nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
 nmap <leader>cc <Action>(VcsShowCurrentChangeMarker)
-nmap <leader>cr <Action>(RenameElement)
-nmap <leader>cd <Action>(EditorDuplicateLines)
-nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
+"nmap <leader>cd <Action>(EditorDuplicateLines)
 nmap <leader>cd <Action>(ShowErrorDescription)
+nmap <leader>cf <Action>(ReformatCode)
+vmap <leader>cf <Action>(ReformatCode)
+nmap <leader>cg <Action>(IntentionActionAsAction_org.jetbrains.plugins.groovy.intentions.conversions.strings.ConvertConcatenationToGstringIntention)
+nmap <leader>cl <Action>(Compose.Live.Edit.ManualLiveEdit)
+nmap <leader>co <Action>(OverrideMethods)
+let g:WhichKeyDesc_Convert = "<leader>cp Code Preview"
+nmap <leader>cpd <Action>(RefreshOrRunPreviewAction)
+nmap <leader>cpa <Action>(Android.Designer.CommonActions.ForceCompileAndRefreshActionForNotification)
+nmap <leader>cr <Action>(RenameElement)
+vmap <leader>cs <Action>(SurroundWith)
+nmap <leader>cu <Action>(ConvertToUnixLineSeparators)
 
 "debug
 let g:WhichKeyDesc_Debug = "<leader>d Debug"
@@ -114,18 +148,20 @@ nmap <leader>dA <Action>(android.deploy.CodeSwap)
 let g:WhichKeyDesc_editor = "<leader>e Editor (most frequent)"
 map <leader>ee <Action>(RecentFiles)
 "nmap <leader>f <Action>(Find)
-map <leader>er <Action>(Switcher)<CR>
-map <leader>eo <Action>(HideAllWindows)<CR>
+map <leader>er <Action>(Switcher)
+map <leader>eK <Action>(CheckinProject)
+map <leader>eo <Action>(HideAllWindows)
 nmap <leader>el <Action>(RecentLocations)
 nmap <leader>et <Action>(JumpToLastWindow)
 map <leader>eb <Action>(Back)
 map <leader>eN <Action>(NextProjectWindow)
 map <leader>ei <Action>(IdeaVim.ReloadVimRc.reload)
-" VCS(Git)
-map <leader>ek <Action>(CheckinProject)
 "Sometimes C-q not working --> Use Shift-K
 "map <C-k> <Action>(QuickJavaDoc)
-map <leader>em <Action>(ShowPopupMenu)
+"map <leader>em <Action>(ShowPopupMenu)
+let g:WhichKeyDesc_editor = "<leader>em Move"
+map <leader>emj <Action>(MoveStatementDown)
+map <leader>emk <Action>(MoveStatementUp)
 map <leader>ez <Action>(ToggleZenMode)
 map <leader>ep <Action>(TogglePowerSave)
 map <leader>em <Action>(MaximizeToolWindow)
@@ -139,8 +175,9 @@ nmap <leader>fe <Action>(SelectInProjectView)
 "Git/navigate (go)
 let g:WhichKeyDesc_Navigate = "<leader>g Git/Go (navigate)"
 nmap <leader>ga <Action>(ChangesView.AddUnversioned)
-nmap <leader>gf <Action>(GotoFile)
+nmap <leader>gA <Action>(Annotate)
 vmap <leader>gf <Action>(GotoFile)
+nmap <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
 nmap <leader>gc <Action>(GotoClass)
 vmap <leader>gc <Action>(GotoClass)
 nmap <leader>gs <Action>(GotoSymbol)
@@ -149,12 +186,14 @@ nmap <leader>gu <Action>(GotoSuperMethod)
 "nmap <leader>gn :NERDTree<CR>
 " nmap <leader>gn <Action>(SelectInProjectView)
 let g:WhichKeyDesc_Search = "<leader>gh Git hunk"
-nmap <leader>ghr <Action>(Vcs.RollbackChangedLines) "Git hunk reset
+"Git hunk reset
+nmap <leader>ghr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>ghp <Action>(Vcs.ShowDiffChangedLines)
 
 ":
 "vmap <leader>S <Plug>ReplaceWithRegisterVisual
 "nmap <leader>S <Plug>ReplaceWithRegisterOperator
-vmap <leader>S <Action>(SurroundWith)
+"vmap <leader>S <Action>(SurroundWith)
 
 "search
 let g:WhichKeyDesc_Search = "<leader>s Search"
@@ -169,13 +208,17 @@ vmap <leader>sS <Action>(GotoSymbol)
 "refactorings
 let g:WhichKeyDesc_Refactorings = "<leader>r Refactorings"
 vmap <leader>rr <Action>(Refactorings.QuickListPopupAction)
+vmap <leader>rp <Action>(IntroduceParameter)
 nmap <leader>rs <Action>(ChangeSignature)
 nmap <leader>ru <Action>(MembersPullUp)
 
 "add New/Code generation
 let g:WhichKeyDesc_New = "<leader>n New/Code generation"
 nmap <leader>nn <Action>(Generate)
-nmap <leader>no <Action>(OverrideMethods)
+
+"add New/Code generation
+let g:WhichKeyDesc_New = "<leader>w Window"
+nmap <leader>wm <Action>(MaximizeEditorInSplit)
 
 "tools"
 
@@ -190,6 +233,7 @@ sethandler <C-P> n-v-i:ide
 sethandler <C-F> n-v-i:ide
 sethandler <C-F8> n-v-i:ide
 sethandler <C-T> n-v-i:ide
+sethandler <C-G> n-v-i:ide
 "sethandler <Delete> n-v-i:ide
 nmap Y y$
 vmap Y <Action>($Copy)
@@ -201,6 +245,8 @@ nmap <C-W><C-S-W> <Action>(MoveEditorToOppositeTabGroup)
 nmap <C-W><C-L> <Action>(OpenEditorInOppositeTabGroup)
 nmap <C-W>> <Action>(StretchSplitToRight)
 nmap <C-W>< <Action>(StretchSplitToLeft)
+nmap <C-W>c <Action>(Unsplit)
+"nmap <C-W>c <Action>(SelectNextOccurrence) multicursor
 nmap <S-Left> <Action>(EditorPreviousWordInDifferentHumpsMode)
 imap <S-Left> <Action>(EditorPreviousWordInDifferentHumpsMode)
 nmap <S-Right> <Action>(EditorNextWordInDifferentHumpsMode)
@@ -214,9 +260,6 @@ vmap <S-Right> <Action>(EditorNextWordInDifferentHumpsModeWithSelection)
 set scrolloff=2
 
 let g:sneak#label = 1
-
-" Do incremental searching.
-set incsearch
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq

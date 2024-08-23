@@ -8,7 +8,7 @@ return {
     return {
       cmd = { "./gradlew" },
       args = { --"--console=plain",
-        ":app-android:assembleDebug",
+        ":app-android:packageDebug",
       },
       components = {
         -- { "on_output_quickfix", open = true },

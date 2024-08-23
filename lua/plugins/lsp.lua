@@ -34,54 +34,64 @@ return {
         default_config = {
           --cmd = { "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea", "lsp-server" },
           cmd = { "nc", "localhost", "8989" },
-          filetypes = { "kotlin", "gradle", "groovy", "java" },
+          filetypes = {
+            --"ideals", --Start by LspStart manually.
+            "kotlin",
+            "gradle",
+            "groovy",
+            "java",
+          },
           root_dir = function(pattern)
             local cwd = vim.loop.cwd()
             local root = util.root_pattern(".idea")(pattern)
             return util.path.is_descendant(cwd, root) and cwd or root
           end,
+          autostart = false,
         },
-        on_attach = function(client, bufnr)
-          local wk = require("which-key")
-          wk.register({
-            ["<leader>i"] = { name = "+ideals" },
-          })
-          vim.keymap.set(
-            "n",
-            "<leader>ii",
-            [[<cmd>exec "!'/Applications/Android Studio.app/Contents/MacOS/studio' --line ".line('.')." --column ".col('.')." %:p"<CR>]],
-            { noremap = true, desc = "Open in A.Studio" }
-          )
-        end,
+        --on_attach = function(client, bufnr) end,
       }
 
       -- lspconfig.ideals.setup({
       --   capabilities = capabilities,
       -- })
       -- table.insert(opts, value)
+      local wk = require("which-key")
+      wk.register({
+        mode = { "n", "v" },
+        ["<leader>i"] = { name = "+ideals" },
+      })
       opts.servers.ideals = {
         capabilities = capabilities,
+        on_attach = function()
+          vim.o.autowrite = false
+          vim.keymap.set(
+            "n",
+            "<leader>ii",
+            [[<cmd>exec "!'/Applications/Android Studio.app/Contents/MacOS/studio' --line ".line('.')." --column ".(col('.')-1)." %:p"<CR>]],
+            { buffer = true, noremap = true, desc = "Open in A.Studio" }
+          )
+        end,
       }
       --opts.setup.ideals = function(server, opts)
       --  -- return true if you don't want this server to be setup with lspconfig
       --  return false
       --end
-      local mason_registry = require("mason-registry")
-      local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
-        .. "/node_modules/@vue/language-server"
-      opts.servers.tsserver = {
-        init_options = {
-          plugins = {
-            {
-              name = "@vue/typescript-plugin",
-              location = vue_language_server_path,
-              languages = { "vue" },
-            },
-          },
-        },
-        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-        settings = {},
-      }
+      --local mason_registry = require("mason-registry")
+      --local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+      --  .. "/node_modules/@vue/language-server"
+      --opts.servers.tsserver = {
+      --  init_options = {
+      --    plugins = {
+      --      {
+      --        name = "@vue/typescript-plugin",
+      --        location = vue_language_server_path,
+      --        languages = { "vue" },
+      --      },
+      --    },
+      --  },
+      --  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+      --  settings = {},
+      --}
       --opts.setup.tsserver = { }
     end,
   },
